@@ -1,4 +1,4 @@
-package com.dentalflow.pe.entity;
+package com.dentalflow.pe.dashboard.entity;
 
 public class Dashboard {
 	private Long citasDelDia;

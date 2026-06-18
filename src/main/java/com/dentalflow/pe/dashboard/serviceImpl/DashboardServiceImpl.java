@@ -1,10 +1,10 @@
-package com.dentalflow.pe.serviceImpl;
+package com.dentalflow.pe.dashboard.serviceImpl;
 
 import org.springframework.stereotype.Service;
 
-import com.dentalflow.pe.entity.Dashboard;
-import com.dentalflow.pe.repository.IMaterialRepository;
-import com.dentalflow.pe.service.DashboardService;
+import com.dentalflow.pe.dashboard.entity.Dashboard;
+import com.dentalflow.pe.material.repository.IMaterialRepository;
+import com.dentalflow.pe.dashboard.service.DashboardService;
 
 import jakarta.jws.WebService;
 

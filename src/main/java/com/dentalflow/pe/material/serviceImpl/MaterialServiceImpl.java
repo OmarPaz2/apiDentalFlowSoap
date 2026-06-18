@@ -1,13 +1,13 @@
-package com.dentalflow.pe.serviceImpl;
+package com.dentalflow.pe.material.serviceImpl;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.dentalflow.pe.entity.Material;
-import com.dentalflow.pe.repository.IMaterialRepository;
-import com.dentalflow.pe.service.MaterialService;
+import com.dentalflow.pe.material.entity.Material;
+import com.dentalflow.pe.material.repository.IMaterialRepository;
+import com.dentalflow.pe.material.service.MaterialService;
 
 import jakarta.jws.WebService;
 

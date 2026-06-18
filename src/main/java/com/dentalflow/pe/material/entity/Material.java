@@ -1,4 +1,4 @@
-package com.dentalflow.pe.entity;
+package com.dentalflow.pe.material.entity;
 
 import java.math.BigDecimal;
 

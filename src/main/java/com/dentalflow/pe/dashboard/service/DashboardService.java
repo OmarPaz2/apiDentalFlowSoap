@@ -1,6 +1,6 @@
-package com.dentalflow.pe.service;
+package com.dentalflow.pe.dashboard.service;
 
-import com.dentalflow.pe.entity.Dashboard;
+import com.dentalflow.pe.dashboard.entity.Dashboard;
 
 import jakarta.jws.WebService;
 

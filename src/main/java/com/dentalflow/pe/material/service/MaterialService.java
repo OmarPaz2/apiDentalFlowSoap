@@ -1,8 +1,8 @@
-package com.dentalflow.pe.service;
+package com.dentalflow.pe.material.service;
 
 import java.util.List;
 
-import com.dentalflow.pe.entity.Material;
+import com.dentalflow.pe.material.entity.Material;
 
 
 import jakarta.jws.WebService;
