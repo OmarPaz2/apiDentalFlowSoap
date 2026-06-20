@@ -12,8 +12,8 @@ public interface AppointmentService {
 
     @WebMethod
     Appointment createAppointment(
-            Long patientId,
-            Long dentistId,
+            int patientId,
+            int dentistId,
             Long appointmentTypeId,
             String date,
             String startTime,
@@ -22,23 +22,23 @@ public interface AppointmentService {
 
     @WebMethod
     Appointment rescheduleAppointment(
-            Long appointmentId,
+            int appointmentId,
             String newDate,
             String newStartTime
     );
 
     @WebMethod
-    Appointment cancelAppointment(Long appointmentId);
+    Appointment cancelAppointment(int appointmentId);
 
     @WebMethod
-    Appointment getAppointmentById(Long id);
+    Appointment getAppointmentById(int id);
 
     @WebMethod
     List<Appointment> getAllAppointments();
 
     @WebMethod
-    List<Appointment> getAppointmentsByDentist(Long dentistId);
+    List<Appointment> getAppointmentsByDentist(int dentistId);
 
     @WebMethod
-    List<Appointment> getAppointmentsByPatient(Long patientId);
+    List<Appointment> getAppointmentsByPatient(int patientId);
 }

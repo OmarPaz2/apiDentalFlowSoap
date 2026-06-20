@@ -23,7 +23,7 @@ public interface PatientService {
     );
 
     @WebMethod
-    Patient getPatientById(Long id);
+    Patient getPatientById(int id);
 
     @WebMethod
     List<Patient> getAllPatients();

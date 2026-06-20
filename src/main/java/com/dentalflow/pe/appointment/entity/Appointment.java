@@ -1,29 +1,30 @@
 package com.dentalflow.pe.appointment.entity;
 
+import com.dentalflow.pe.clinicalStaff.entity.ClinicalStaff;
 import com.dentalflow.pe.patient.entity.Patient;
-import com.dentalflow.pe.dentist.entity.Dentist;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "appointments")
+@Table(name = "citas")
 public class Appointment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name="patient_id")
+    @JoinColumn(name="paciente_id")
     private Patient patient;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name="dentist_id")
-    private Dentist dentist;
+    @JoinColumn(name="odontologo_id")
+    private ClinicalStaff dentist;
 
     @ManyToOne(optional = false)
     @JoinColumn(name="appointment_type_id")
@@ -43,6 +44,9 @@ public class Appointment {
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status;
 
+    @Column(name = "monto", nullable = false, precision = 10, scale = 2)
+    private BigDecimal amount;
+    
     @Column(name="created_at")
     private LocalDateTime createdAt;
 
@@ -59,11 +63,11 @@ public class Appointment {
         this.patient = patient;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -75,11 +79,11 @@ public class Appointment {
         this.appointmentType = appointmentType;
     }
 
-    public Dentist getDentist() {
+    public ClinicalStaff getDentist() {
         return dentist;
     }
 
-    public void setDentist(Dentist dentist) {
+    public void setDentist(ClinicalStaff dentist) {
         this.dentist = dentist;
     }
 
@@ -138,4 +142,14 @@ public class Appointment {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+	public BigDecimal getAmount() {
+		return amount;
+	}
+
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
+    
+    
 }

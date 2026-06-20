@@ -6,28 +6,31 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "patients")
+@Table(name = "pacientes")
 public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Column(nullable=false, unique=true)
     private String dni;
 
-    @Column(name="first_name", nullable=false)
+    @Column(name="nombres", nullable=false)
     private String firstName;
 
-    @Column(name="last_name", nullable=false)
+    @Column(name="apellidos", nullable=false)
     private String lastName;
 
-    @Column(name="birth_date")
+    @Column(name="fechaNacimiento")
     private LocalDate birthDate;
 
     private String gender;
+    @Column(length = 9)
     private String phone;
+    @Column(length = 100)
     private String email;
+    @Column(name="direccion",length = 255)
     private String address;
 
     @Column(name="created_at")
@@ -35,11 +38,11 @@ public class Patient {
 
     public Patient(){}
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -114,4 +117,5 @@ public class Patient {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+    
 }

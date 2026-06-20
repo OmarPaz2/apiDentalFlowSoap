@@ -1,17 +1,18 @@
-package com.dentalflow.pe.dentist.service;
-
-import com.dentalflow.pe.dentist.entity.Dentist;
+package com.dentalflow.pe.clinicalStaff.service;
 
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
 
 import java.util.List;
 
+import com.dentalflow.pe.clinicalStaff.entity.ClinicalStaff;
+
+
 @WebService
-public interface DentistService {
+public interface ClinicalStaffService {
 
     @WebMethod
-    Dentist createDentist(
+    ClinicalStaff createDentist(
             Long userId,
             Long specialtyId,
             String licenseNumber,
@@ -21,8 +22,8 @@ public interface DentistService {
     );
 
     @WebMethod
-    List<Dentist> getAllDentists();
+    List<ClinicalStaff> getAllDentists();
 
     @WebMethod
-    Dentist getDentistById(Long id);
+    ClinicalStaff getDentistById(int id);
 }

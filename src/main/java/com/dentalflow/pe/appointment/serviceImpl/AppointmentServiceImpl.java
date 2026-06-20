@@ -3,8 +3,8 @@ package com.dentalflow.pe.appointment.serviceImpl;
 import com.dentalflow.pe.appointment.entity.*;
 import com.dentalflow.pe.appointment.repository.*;
 import com.dentalflow.pe.appointment.service.AppointmentService;
-import com.dentalflow.pe.dentist.entity.Dentist;
-import com.dentalflow.pe.dentist.repository.IDentistRepository;
+import com.dentalflow.pe.clinicalStaff.entity.ClinicalStaff;
+import com.dentalflow.pe.clinicalStaff.repository.IClinicalStaffRepository;
 import com.dentalflow.pe.patient.entity.Patient;
 import com.dentalflow.pe.patient.repository.IPatientRepository;
 
@@ -25,7 +25,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     private IAppointmentRepository appointmentRepository;
 
     @Autowired
-    private IDentistRepository dentistRepository;
+    private IClinicalStaffRepository dentistRepository;
 
     @Autowired
     private IPatientRepository patientRepository;
@@ -35,8 +35,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment createAppointment(
-            Long patientId,
-            Long dentistId,
+            int patientId,
+            int dentistId,
             Long appointmentTypeId,
             String date,
             String startTime,
@@ -45,7 +45,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
 
-        Dentist dentist = dentistRepository.findById(dentistId)
+        ClinicalStaff dentist = dentistRepository.findById(dentistId)
                 .orElseThrow(() -> new RuntimeException("Dentist not found"));
 
         AppointmentType type = appointmentTypeRepository.findById(appointmentTypeId)
@@ -74,7 +74,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment rescheduleAppointment(
-            Long appointmentId,
+            int appointmentId,
             String newDate,
             String newStartTime
     ) {
@@ -116,7 +116,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Appointment cancelAppointment(Long appointmentId) {
+    public Appointment cancelAppointment(int appointmentId) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
 
@@ -127,7 +127,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     private void validateOverlap(
-            Long dentistId,
+            int dentistId,
             LocalDate date,
             LocalTime start,
             LocalTime end
@@ -153,11 +153,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     private void validateOverlapForReschedule(
-            Long dentistId,
+            int dentistId,
             LocalDate date,
             LocalTime start,
             LocalTime end,
-            Long appointmentId
+            int appointmentId
     ) {
         List<Appointment> appointments =
                 appointmentRepository.findByDentistIdAndAppointmentDateAndStatusNotAndIdNot(
@@ -179,7 +179,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Appointment getAppointmentById(Long id) {
+    public Appointment getAppointmentById(int id) {
         return appointmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
     }
@@ -190,12 +190,12 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> getAppointmentsByDentist(Long dentistId) {
+    public List<Appointment> getAppointmentsByDentist(int dentistId) {
         return appointmentRepository.findByDentistId(dentistId);
     }
 
     @Override
-    public List<Appointment> getAppointmentsByPatient(Long patientId) {
+    public List<Appointment> getAppointmentsByPatient(int patientId) {
         return appointmentRepository.findByPatientId(patientId);
     }
 

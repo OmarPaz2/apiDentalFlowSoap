@@ -7,22 +7,22 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface IAppointmentRepository extends JpaRepository<Appointment, Long> {
+public interface IAppointmentRepository extends JpaRepository<Appointment, Integer> {
 
     List<Appointment> findByDentistIdAndAppointmentDateAndStatusNot(
-            Long dentistId,
+            int dentistId,
             LocalDate appointmentDate,
             AppointmentStatus status
     );
 
     List<Appointment> findByDentistIdAndAppointmentDateAndStatusNotAndIdNot(
-            Long dentistId,
+            int dentistId,
             LocalDate appointmentDate,
             AppointmentStatus status,
-            Long id
+            int id
     );
 
-    List<Appointment> findByDentistId(Long dentistId);
+    List<Appointment> findByDentistId(int dentistId);
 
-    List<Appointment> findByPatientId(Long patientId);
+    List<Appointment> findByPatientId(int patientId);
 }

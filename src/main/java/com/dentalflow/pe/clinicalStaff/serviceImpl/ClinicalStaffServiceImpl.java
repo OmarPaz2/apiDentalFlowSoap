@@ -1,8 +1,8 @@
-package com.dentalflow.pe.dentist.serviceImpl;
+package com.dentalflow.pe.clinicalStaff.serviceImpl;
 
-import com.dentalflow.pe.dentist.entity.Dentist;
-import com.dentalflow.pe.dentist.repository.IDentistRepository;
-import com.dentalflow.pe.dentist.service.DentistService;
+import com.dentalflow.pe.clinicalStaff.entity.ClinicalStaff;
+import com.dentalflow.pe.clinicalStaff.repository.IClinicalStaffRepository;
+import com.dentalflow.pe.clinicalStaff.service.ClinicalStaffService;
 import com.dentalflow.pe.specialty.entity.Specialty;
 import com.dentalflow.pe.specialty.repository.ISpecialtyRepository;
 
@@ -15,16 +15,16 @@ import java.util.List;
 
 @Service
 @WebService(endpointInterface = "com.dentalflow.pe.dentist.service.DentistService")
-public class DentistServiceImpl implements DentistService {
+public class ClinicalStaffServiceImpl implements ClinicalStaffService {
 
     @Autowired
-    private IDentistRepository dentistRepository;
+    private IClinicalStaffRepository clinicalStaffRepository;
 
     @Autowired
     private ISpecialtyRepository specialtyRepository;
 
     @Override
-    public Dentist createDentist(
+    public ClinicalStaff createDentist(
             Long userId,
             Long specialtyId,
             String licenseNumber,
@@ -32,14 +32,14 @@ public class DentistServiceImpl implements DentistService {
             String lastName,
             String phone
     ) {
-        if (dentistRepository.findByLicenseNumber(licenseNumber).isPresent()) {
+        if (clinicalStaffRepository.findByLicenseNumber(licenseNumber).isPresent()) {
             throw new RuntimeException("License number already exists");
         }
 
         Specialty specialty = specialtyRepository.findById(specialtyId)
                 .orElseThrow(() -> new RuntimeException("Specialty not found"));
 
-        Dentist dentist = new Dentist();
+        ClinicalStaff dentist = new ClinicalStaff();
         dentist.setUserId(userId);
         dentist.setSpecialty(specialty);
         dentist.setLicenseNumber(licenseNumber);
@@ -48,17 +48,17 @@ public class DentistServiceImpl implements DentistService {
         dentist.setPhone(phone);
         dentist.setCreatedAt(LocalDateTime.now());
 
-        return dentistRepository.save(dentist);
+        return clinicalStaffRepository.save(dentist);
     }
 
     @Override
-    public List<Dentist> getAllDentists() {
-        return dentistRepository.findAll();
+    public List<ClinicalStaff> getAllDentists() {
+        return clinicalStaffRepository.findAll();
     }
 
     @Override
-    public Dentist getDentistById(Long id) {
-        return dentistRepository.findById(id)
+    public ClinicalStaff getDentistById(int id) {
+        return clinicalStaffRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Dentist not found"));
     }
 }

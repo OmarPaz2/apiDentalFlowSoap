@@ -49,7 +49,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public Patient getPatientById(Long id) {
+    public Patient getPatientById(int id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
     }
