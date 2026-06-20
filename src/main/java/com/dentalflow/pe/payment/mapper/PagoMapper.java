@@ -36,9 +36,9 @@ public interface PagoMapper {
 	    
 	    @Mapping(target = "metodoPago",source = "metodoPago",qualifiedByName = "metodoToString")
 	    @Mapping(target = "idPago",source = "id")
-	    @Mapping(target = "nombresPaciente",source = "cita.paciente.firstName")
-	    @Mapping(target = "apellidosPaciente",source = "cita.paciente.lastName")
-	    @Mapping(target = "nombreEspecialidad",source = "cita.odontologo.specialty.name")
+	    @Mapping(target = "nombresPaciente",source = "cita.patient.firstName")
+	    @Mapping(target = "apellidosPaciente",source = "cita.patient.lastName")
+	    @Mapping(target = "nombreEspecialidad",source = "cita.dentist.specialty.name")
 	    @Mapping(target = "monto",source = "monto")
 	    @Mapping(target = "fecha",source = "fecha")
 	    @Mapping(target = "razon",ignore=true)

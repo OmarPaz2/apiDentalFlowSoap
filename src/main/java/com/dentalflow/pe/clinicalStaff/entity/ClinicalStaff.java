@@ -22,7 +22,9 @@ public class ClinicalStaff {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="usuario_id", nullable = false)
+    //@ManyToOne(optional = false)
+    @OneToOne(optional = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
     @ManyToOne(optional = false)

@@ -1,5 +1,7 @@
 package com.dentalflow.pe.clinicalStaff.serviceImpl;
 
+import com.dentalflow.pe.auth.entity.Usuario;
+import com.dentalflow.pe.auth.repository.IUsuarioRepository;
 import com.dentalflow.pe.clinicalStaff.entity.ClinicalStaff;
 import com.dentalflow.pe.clinicalStaff.repository.IClinicalStaffRepository;
 import com.dentalflow.pe.clinicalStaff.service.ClinicalStaffService;
@@ -14,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-@WebService(endpointInterface = "com.dentalflow.pe.dentist.service.DentistService")
+@WebService(endpointInterface = "com.dentalflow.pe.clinicalStaff.service.ClinicalStaffService")
 public class ClinicalStaffServiceImpl implements ClinicalStaffService {
 
     @Autowired
@@ -22,6 +24,9 @@ public class ClinicalStaffServiceImpl implements ClinicalStaffService {
 
     @Autowired
     private ISpecialtyRepository specialtyRepository;
+
+    @Autowired
+    private IUsuarioRepository usuarioRepository;
 
     @Override
     public ClinicalStaff createDentist(
@@ -39,8 +44,12 @@ public class ClinicalStaffServiceImpl implements ClinicalStaffService {
         Specialty specialty = specialtyRepository.findById(specialtyId)
                 .orElseThrow(() -> new RuntimeException("Specialty not found"));
 
+        Usuario user = usuarioRepository.findById(userId.intValue())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+
         ClinicalStaff dentist = new ClinicalStaff();
-        dentist.setUserId(userId);
+        dentist.setUsuario(user);
         dentist.setSpecialty(specialty);
         dentist.setLicenseNumber(licenseNumber);
         dentist.setFirstName(firstName);
