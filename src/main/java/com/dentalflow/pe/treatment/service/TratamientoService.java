@@ -2,6 +2,8 @@ package com.dentalflow.pe.treatment.service;
 
 
 
+import java.math.BigDecimal;
+
 import com.dentalflow.pe.treatment.dto.TratamientoRequestDto;
 import com.dentalflow.pe.treatment.dto.TratamientoResponseDto;
 
@@ -15,5 +17,5 @@ public interface TratamientoService {
 	TratamientoResponseDto getTratamiento(String dniPaciente);
 	
 	void actualizarEstado(int idTratamiento,String estado);
-	
+	String aumentarCostoTratamiento(int idTratamiento, BigDecimal monto);
 }

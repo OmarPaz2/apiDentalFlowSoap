@@ -1,5 +1,7 @@
 package com.dentalflow.pe.treatment.service.impl;
 
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Component;
 
 import com.dentalflow.pe.clinicalStaff.entity.ClinicalStaff;
@@ -101,6 +103,21 @@ public class TratamientoServiceImpl implements TratamientoService{
 		tratamientoEntity.setEstado(EstadoTratamiento.valueOf(estado));
 		
 		tratamientoRepository.save(tratamientoEntity);
+	}
+
+
+
+	@Override
+	public String aumentarCostoTratamiento(int idTratamiento, BigDecimal monto) {
+		Treatment tratamiento = tratamientoRepository.findById(idTratamiento).orElseThrow(()->new RuntimeException("tratamiento no encontrado"));
+		
+		BigDecimal totalFinal=tratamiento.getCostoEstimado().add(monto);
+		
+		tratamiento.setCostoEstimado(totalFinal);
+		
+			tratamientoRepository.save(tratamiento);
+			return "Costo del tratamiento aumentado con exito";
+		
 	}
 
 }

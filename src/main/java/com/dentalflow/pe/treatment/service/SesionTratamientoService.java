@@ -1,6 +1,8 @@
 package com.dentalflow.pe.treatment.service;
 
 
+import java.util.List;
+
 import com.dentalflow.pe.treatment.dto.SesionTratamientoRegisterRequestDto;
 import com.dentalflow.pe.treatment.dto.SesionTratamientoResponseDto;
 import com.dentalflow.pe.treatment.dto.SesionTratamientoUpdateRequestDto;
@@ -14,5 +16,7 @@ public interface SesionTratamientoService {
 	String actualizarSesion(SesionTratamientoUpdateRequestDto sesion,int idSesion);
 	SesionTratamientoResponseDto getSesion(int sesionId);
 	String cancelarSesion(int idSesion);
+	List<SesionTratamientoResponseDto> getAllSesionesByIdTratamiento(int idTratamiento);
+	List<SesionTratamientoResponseDto> sesionesParahoy();
 	
 }

@@ -1,6 +1,8 @@
 package com.dentalflow.pe.treatment.service.impl;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -141,6 +143,35 @@ public class SesionTratamientoServiceImpl implements SesionTratamientoService {
 		
 		sesion_tratamientoRepository.save(sesionEntity);
 		return "sesion cancelada correctamente";
+	}
+
+	@Override
+	public List<SesionTratamientoResponseDto> getAllSesionesByIdTratamiento(int idTratamiento) {
+		
+		List<TreatmentSession> sesiones = sesion_tratamientoRepository.findAllByTratamiento_Id(idTratamiento);
+		return convertirSesiones(sesiones);
+	}
+
+	@Override
+	public List<SesionTratamientoResponseDto> sesionesParahoy() {
+		LocalDate fechaHoy = LocalDate.now();
+		
+		List<TreatmentSession> sesiones =  sesion_tratamientoRepository.findAllByFechaProgramada(fechaHoy, EstadoSesion.PROGRAMADA);
+		
+		
+		return convertirSesiones(sesiones);
+		
+	}
+	
+	private List<SesionTratamientoResponseDto> convertirSesiones(List<TreatmentSession> sesiones) {
+		
+		List<SesionTratamientoResponseDto> sesionesRp = new ArrayList<>();
+		
+		for(TreatmentSession sesion : sesiones) {
+			sesionesRp.add(sesionMapper.toResponse(sesion));
+		}
+		
+		return sesionesRp;
 	}
 
 }
