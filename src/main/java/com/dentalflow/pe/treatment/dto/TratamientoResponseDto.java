@@ -27,4 +27,5 @@ public class TratamientoResponseDto {
 	 private int sesionesRestantes;
 	 private BigDecimal montoPagado;
 	 private String estado;
+	 private boolean pagado;
 }

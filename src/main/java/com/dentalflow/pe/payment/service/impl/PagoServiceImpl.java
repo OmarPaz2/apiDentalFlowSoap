@@ -47,6 +47,10 @@ public class PagoServiceImpl implements PagoService {
 	public PagoResponseDto registerPagoTratamiento(PagoRequestDto pago,int idTratamiento) {
 		Treatment tratamiento = tratamientoRepository.findById(idTratamiento).orElseThrow(()->new RuntimeException("tratamiento no encontrado"));
 		
+		if(tratamiento.isPagado()) {
+			throw new RuntimeException("El tratamiento ya se encuentra pagado en su totalidad");
+		}
+		
 		if(tratamiento.getCostoEstimado().compareTo(pago.getMonto()) <0) {
 			throw new RuntimeException("El monto a pagar no puede ser mayor que el costo del tratamiento");
 		}
@@ -55,21 +59,35 @@ public class PagoServiceImpl implements PagoService {
 		 
 		PagoResponseDto pagoRegisterEntity = new PagoResponseDto();
 		if(sesionProgramada !=null) {
+			BigDecimal montoTotal = tratamiento.getCostoEstimado();
+			BigDecimal montoRestante = montoTratamientoRestante(montoTotal,idTratamiento);
 			
-			BigDecimal montoRestante = tratamiento.getCostoEstimado().subtract(pagoRepository.sumMontoByTratamiento_Id(idTratamiento));
-			if(pago.getMonto().compareTo(sesionProgramada.getCostoParcial()) ==0 || pago.getMonto().compareTo(montoRestante)<=0) {
+			
+			if(pago.getMonto().compareTo(sesionProgramada.getCostoParcial()) < 0) {
 				
+				throw new RuntimeException("El monto a pagar no puede ser menor al monto de la sesion programda : "+sesionProgramada.getCostoParcial());
+				
+			}
+			
+			int sesionesRestantes = tratamiento.getCant_sesiones() - sesion_tratamientoRepository.countByTratamiento_IdAndEstado(tratamiento.getId(), EstadoSesion.REALIZADA);
+			if(pago.getMonto().compareTo(montoRestante)>0 && sesionesRestantes ==1) {
+				throw new RuntimeException("El monto ingresado no puede ser mayor al monto restante que se debe pagar " + montoRestante);
+				
+			}
 				Pago pagoRegister = pagoMapper.toEntity(pago);
 				pagoRegister.setTratamiento(tratamiento);
 				
-				 pagoRegisterEntity = pagoMapper.toResponsePagoTratamiento(pagoRepository.save(pagoRegister));
-				
+				try {
+					pagoRegisterEntity = pagoMapper.toResponsePagoTratamiento(pagoRepository.save(pagoRegister));
+
+				}catch(Exception ex) {
+					throw new RuntimeException("Error ineperado al registrar el pago");
+				}
+				 				 
+				if(sesionesRestantes ==1 || pago.getMonto().compareTo(montoTratamientoRestante(montoTotal,idTratamiento))==0) {
+					cambiarEstado_Pagado(idTratamiento,true);
+				}
 				pagoRegisterEntity.setRazon("TRATAMIENTO");
-				
-			}else {
-				throw new RuntimeException("El monto a pagar no puede ser menor al monto de la sesion programda : "+sesionProgramada.getCostoParcial() );
-						
-			}
 		}
 		return pagoRegisterEntity;
 	}
@@ -100,6 +118,16 @@ public class PagoServiceImpl implements PagoService {
 		
 		return pagoMapper.toResponsePagoTratamiento(pagoEntity);
 		
+	}
+	
+	//metodos auxiliares
+	
+	private void cambiarEstado_Pagado(int id,boolean pagado) {
+		tratamientoRepository.updateEstadoPago(id, pagado);
+	}
+	
+	private BigDecimal montoTratamientoRestante(BigDecimal montoTotal,int idTratamiento) {
+		return montoTotal.subtract(pagoRepository.sumMontoByTratamiento_Id(idTratamiento));
 	}
 
 }

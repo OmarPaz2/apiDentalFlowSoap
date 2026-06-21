@@ -1,6 +1,7 @@
 package com.dentalflow.pe.patient.service;
 
-import com.dentalflow.pe.patient.entity.Patient;
+import com.dentalflow.pe.patient.dto.PatientRequestDto;
+import com.dentalflow.pe.patient.dto.PatientResponseDto;
 
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
@@ -11,20 +12,15 @@ import java.util.List;
 public interface PatientService {
 
     @WebMethod
-    Patient createPatient(
-            String dni,
-            String firstName,
-            String lastName,
-            String birthDate,
-            String gender,
-            String phone,
-            String email,
-            String address
-    );
+    PatientResponseDto createPatient(PatientRequestDto patient);
 
     @WebMethod
-    Patient getPatientById(int id);
+    PatientResponseDto getPatientById(int id);
 
     @WebMethod
-    List<Patient> getAllPatients();
+    List<PatientResponseDto> getAllPatients();
+    
+    String deletePatient(int id);
+    PatientResponseDto updatePatient(PatientRequestDto patient, int id);
+    List<PatientResponseDto> searchPatient(String dni,String nombre,String apellido);  
 }

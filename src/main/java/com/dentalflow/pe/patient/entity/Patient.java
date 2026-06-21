@@ -34,7 +34,7 @@ public class Patient {
     private String address;
 
     @Column(name="created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     public Patient(){}
 

@@ -54,7 +54,7 @@ public class TratamientoServiceImpl implements TratamientoService{
 		
 		ClinicalStaff odontologo = personalClinicoRepository.findById(tratamientoRq.getOdontologoId()).orElseThrow(()-> new RuntimeException("Odontologo no encontrado"));
 		
-		if(!odontologo.getTipoPersonal().equals(TipoPersonal.ODONTOLOGO)) {
+		if(!odontologo.getUsuario().getRol().getNombre().equalsIgnoreCase("ODONTOLOGO")) {
 			throw new RuntimeException("El personal seleccionado no es un odontologo");
 		}
 		

@@ -40,6 +40,9 @@ public class Treatment {
 
     @Column(name = "fecha_inicio", nullable = false)
     private LocalDate fechaInicio;
+    
+    @Column(name = "pagado", nullable = false)
+    private boolean pagado;
 
     private int cant_sesiones;
     @Enumerated(EnumType.STRING)

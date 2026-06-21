@@ -15,4 +15,5 @@ public interface TratamientoService {
 	TratamientoResponseDto getTratamiento(String dniPaciente);
 	
 	void actualizarEstado(int idTratamiento,String estado);
+	
 }

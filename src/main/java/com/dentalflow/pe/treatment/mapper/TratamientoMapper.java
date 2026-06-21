@@ -28,6 +28,7 @@ public interface TratamientoMapper {
     @Mapping(target = "apellidosOdontologo",source = "odontologo.lastName")
     @Mapping(target = "sesionesRestantes",ignore = true)
     @Mapping(target = "montoPagado",ignore = true)
+    @Mapping(target = "pagado",source="pagado")
     TratamientoResponseDto toResponse(Treatment tratamiento);
 
     
