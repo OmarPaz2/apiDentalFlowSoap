@@ -3,7 +3,6 @@ package com.dentalflow.pe.treatment.service.impl;
 import org.springframework.stereotype.Component;
 
 import com.dentalflow.pe.clinicalStaff.entity.ClinicalStaff;
-import com.dentalflow.pe.clinicalStaff.entity.ClinicalStaff.TipoPersonal;
 import com.dentalflow.pe.clinicalStaff.repository.IClinicalStaffRepository;
 import com.dentalflow.pe.patient.entity.Patient;
 import com.dentalflow.pe.patient.repository.IPatientRepository;

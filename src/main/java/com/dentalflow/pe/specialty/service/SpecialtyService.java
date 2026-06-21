@@ -14,7 +14,7 @@ public interface SpecialtyService {
     Specialty createSpecialty(String name);
 
     @WebMethod
-    Specialty updateSpecialty(Long id, String name);
+    Specialty updateSpecialty(int id, String name);
 
     @WebMethod
     List<Specialty> getAllSpecialties();

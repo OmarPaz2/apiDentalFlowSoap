@@ -9,6 +9,6 @@ public interface ITratamientoRepository extends JpaRepository<Treatment, Integer
 
 	Treatment findByPaciente_Dni(String dni);
 	
-	 @Query("UPDATE Cita c SET c.pagado = :pagado WHERE c.id = :id")
-	    int updateEstadoPago(Integer id,boolean pagado);
+	 @Query("UPDATE Treatment c SET c.pagado = :pagado WHERE c.id = :id")
+	    void updateEstadoPago(Integer id,boolean pagado);
 }

@@ -30,8 +30,8 @@ public class ClinicalStaffServiceImpl implements ClinicalStaffService {
 
     @Override
     public ClinicalStaff createDentist(
-            Long userId,
-            Long specialtyId,
+            int userId,
+            int specialtyId,
             String licenseNumber,
             String firstName,
             String lastName,
@@ -44,7 +44,7 @@ public class ClinicalStaffServiceImpl implements ClinicalStaffService {
         Specialty specialty = specialtyRepository.findById(specialtyId)
                 .orElseThrow(() -> new RuntimeException("Specialty not found"));
 
-        Usuario user = usuarioRepository.findById(userId.intValue())
+        Usuario user = usuarioRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
 

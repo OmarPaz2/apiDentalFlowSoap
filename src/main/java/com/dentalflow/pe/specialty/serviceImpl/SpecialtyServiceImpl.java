@@ -32,12 +32,12 @@ public class SpecialtyServiceImpl implements SpecialtyService {
     }
 
     @Override
-    public Specialty updateSpecialty(Long id, String name) {
+    public Specialty updateSpecialty(int id, String name) {
         Specialty specialty = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Specialty not found"));
 
         repository.findByName(name).ifPresent(existing -> {
-            if (!existing.getId().equals(id)) {
+            if (!(existing.getId() ==id)) {
                 throw new RuntimeException("Specialty name already exists");
             }
         });

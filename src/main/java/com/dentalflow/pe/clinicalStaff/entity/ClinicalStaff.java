@@ -45,17 +45,12 @@ public class ClinicalStaff {
 
     @Column(name="created_at")
     private LocalDateTime createdAt;
-    
-    @Enumerated(EnumType.STRING)
-    @Column(name = "tipo_personal", nullable = false)
-    private TipoPersonal tipoPersonal;
+
 
     @Column(nullable = false)
     private Boolean disponible = true;
 
-    public enum TipoPersonal {
-        ADMINISTRADOR, RECEPCIONISTA, ODONTOLOGO
-    }
+   
     
    
 }

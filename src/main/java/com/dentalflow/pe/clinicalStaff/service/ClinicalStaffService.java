@@ -13,8 +13,8 @@ public interface ClinicalStaffService {
 
     @WebMethod
     ClinicalStaff createDentist(
-            Long userId,
-            Long specialtyId,
+            int userId,
+            int specialtyId,
             String licenseNumber,
             String firstName,
             String lastName,

@@ -9,7 +9,7 @@ public class Specialty {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Column(nullable = false, unique = true)
     private String name;
@@ -19,13 +19,13 @@ public class Specialty {
 
     public Specialty(){}
 
-    public Specialty(Long id, String name, LocalDateTime createdAt) {
+    public Specialty(int id, String name, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
         this.createdAt = createdAt;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -37,7 +37,7 @@ public class Specialty {
         return createdAt;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
