@@ -11,7 +11,7 @@ public class Specialty {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name="nombre",nullable = false, unique = true)
     private String name;
 
     @Column(name = "created_at")

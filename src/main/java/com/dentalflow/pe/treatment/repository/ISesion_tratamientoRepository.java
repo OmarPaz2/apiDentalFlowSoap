@@ -17,7 +17,7 @@ public interface ISesion_tratamientoRepository extends JpaRepository<TreatmentSe
 	 
 	 List<TreatmentSession> findAllByTratamiento_Id(int id);
 	 
-	   @Query("SELECT st FROM TreatmentSession st WHERE DATE(st.fechaProgramada) = :fecha, AND st.estado = :estado")
+	   @Query("SELECT st FROM TreatmentSession st WHERE DATE(st.fechaProgramada) = :fecha AND st.estado = :estado")
 	 List<TreatmentSession> findAllByFechaProgramada(@Param("fecha") LocalDate fecha,EstadoSesion estado);
 	 
 }

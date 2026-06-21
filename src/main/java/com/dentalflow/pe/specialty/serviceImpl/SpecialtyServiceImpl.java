@@ -20,6 +20,9 @@ public class SpecialtyServiceImpl implements SpecialtyService {
 
     @Override
     public Specialty createSpecialty(String name) {
+    	if (name == null || name.isBlank()) {
+            throw new RuntimeException("Specialty name is required");
+        }
         if (repository.findByName(name).isPresent()) {
             throw new RuntimeException("Specialty already exists");
         }

@@ -32,7 +32,7 @@ public class Treatment {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String diagnostico;
 
-    @Column(name = "tipo_treatment", nullable = false, length = 100)
+    @Column(name = "tipo_tratamiento", nullable = false, length = 100)
     private String tipoTratamiento;
 
     @Column(name = "costo_estimado", nullable = false, precision = 10, scale = 2)
