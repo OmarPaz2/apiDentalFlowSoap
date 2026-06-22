@@ -2,6 +2,7 @@ package com.dentalflow.pe.treatment.service.impl;
 
 import java.math.BigDecimal;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import com.dentalflow.pe.clinicalStaff.entity.ClinicalStaff;
@@ -48,6 +49,7 @@ public class TratamientoServiceImpl implements TratamientoService{
 
 
 
+	@PreAuthorize("hasRole('ODONTOLOGO')")
 	@Override
 	public String registrarTratamiento(TratamientoRequestDto tratamientoRq) {
 	
@@ -70,7 +72,7 @@ public class TratamientoServiceImpl implements TratamientoService{
 	}
 
 
-
+	@PreAuthorize("hasRole('ODONTOLOGO')")
 	@Override
 	public TratamientoResponseDto getTratamiento(String dniPaciente) {
 		if(!pacienteRepository.existsByDni(dniPaciente)) {
@@ -93,7 +95,7 @@ public class TratamientoServiceImpl implements TratamientoService{
 	}
 
 
-
+	@PreAuthorize("hasRole('ODONTOLOGO')")
 	@Override
 	public void actualizarEstado(int idTratamiento, String estado) {
 		System.out.println("ID DE TRATAMIENTO:" + idTratamiento);

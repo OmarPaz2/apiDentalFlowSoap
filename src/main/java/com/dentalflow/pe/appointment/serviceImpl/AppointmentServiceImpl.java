@@ -10,6 +10,7 @@ import com.dentalflow.pe.patient.repository.IPatientRepository;
 
 import jakarta.jws.WebService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -34,6 +35,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Autowired
     private IAppointmentTypeRepository appointmentTypeRepository;
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
     @Override
     public Appointment createAppointment(
             int patientId,
@@ -74,6 +76,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentRepository.save(appointment);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
     @Override
     public Appointment rescheduleAppointment(
             int appointmentId,
@@ -117,6 +120,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentRepository.save(appointment);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
     @Override
     public Appointment cancelAppointment(int appointmentId) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
@@ -180,22 +184,26 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA') or hasRole('ODONTOLOGO')")
     @Override
     public Appointment getAppointmentById(int id) {
         return appointmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
     @Override
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA') or hasRole('ODONTOLOGO')")
     @Override
     public List<Appointment> getAppointmentsByDentist(int dentistId) {
         return appointmentRepository.findByDentistId(dentistId);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA') or hasRole('ODONTOLOGO')")
     @Override
     public List<Appointment> getAppointmentsByPatient(int patientId) {
         return appointmentRepository.findByPatientId(patientId);

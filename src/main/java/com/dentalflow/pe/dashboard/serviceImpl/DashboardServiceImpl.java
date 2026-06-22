@@ -1,5 +1,6 @@
 package com.dentalflow.pe.dashboard.serviceImpl;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.dentalflow.pe.appointment.repository.IAppointmentRepository;
@@ -13,6 +14,7 @@ import jakarta.jws.WebService;
 
 @Service
 @WebService
+@PreAuthorize("hasRole('ADMIN')")
 public class DashboardServiceImpl implements DashboardService {
 
 	

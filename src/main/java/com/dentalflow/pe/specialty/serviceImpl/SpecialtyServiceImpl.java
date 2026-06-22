@@ -6,6 +6,7 @@ import com.dentalflow.pe.specialty.service.SpecialtyService;
 
 import jakarta.jws.WebService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ public class SpecialtyServiceImpl implements SpecialtyService {
     @Autowired
     private ISpecialtyRepository repository;
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
     @Override
     public Specialty createSpecialty(String name) {
     	if (name == null || name.isBlank()) {
@@ -34,6 +36,7 @@ public class SpecialtyServiceImpl implements SpecialtyService {
         return repository.save(specialty);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
     @Override
     public Specialty updateSpecialty(int id, String name) {
         Specialty specialty = repository.findById(id)
@@ -50,6 +53,7 @@ public class SpecialtyServiceImpl implements SpecialtyService {
         return repository.save(specialty);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
     @Override
     public List<Specialty> getAllSpecialties() {
         return repository.findAll();

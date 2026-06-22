@@ -9,6 +9,7 @@ import com.dentalflow.pe.patient.service.PatientService;
 
 import jakarta.jws.WebService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class PatientServiceImpl implements PatientService {
     @Autowired
     private PatientMapper patientMapper;
 
+	@PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
     @Override
     public PatientResponseDto createPatient(PatientRequestDto patient) {
         if (repository.findByDni(patient.getDni()).isPresent()) {
@@ -34,18 +36,21 @@ public class PatientServiceImpl implements PatientService {
         return patientMapper.toDomain(repository.save(patientEntity));
     }
 
+	@PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA') or hasRole('ODONTOLOGO')")
     @Override
     public PatientResponseDto getPatientById(int id) {
         return patientMapper.toDomain(repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Patient not found")));
     }
 
+	@PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA') or hasRole('ODONTOLOGO')")
     @Override
     public List<PatientResponseDto> getAllPatients() { 	
     	return convertPatients(repository.findAll());
         
     }
 
+	@PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
 	@Override
 	public String deletePatient(int id) {
 		
@@ -60,6 +65,7 @@ public class PatientServiceImpl implements PatientService {
 		return "Paciente con id:" + id + " y con DNI: " + patientDNI + " eliminado con exito";
 	}
 
+	@PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
 	@Override
 	public PatientResponseDto updatePatient(PatientRequestDto patient, int id) {
 		Patient patientEntity = repository.findById(id).orElseThrow(()->new RuntimeException("Patient not found"));
@@ -75,6 +81,7 @@ public class PatientServiceImpl implements PatientService {
 		return patientMapper.toDomain(repository.save(patientEntity));
 	}
 
+	@PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA') or hasRole('ODONTOLOGO')")
 	@Override
 	public List<PatientResponseDto> searchPatient(String dni, String nombre, String apellido) {
 		 String normalizedDni  = normalizar(dni);

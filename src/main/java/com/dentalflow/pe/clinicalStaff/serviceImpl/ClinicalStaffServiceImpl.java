@@ -10,6 +10,7 @@ import com.dentalflow.pe.specialty.repository.ISpecialtyRepository;
 
 import jakarta.jws.WebService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -28,6 +29,7 @@ public class ClinicalStaffServiceImpl implements ClinicalStaffService {
     @Autowired
     private IUsuarioRepository usuarioRepository;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public ClinicalStaff createDentist(
             int userId,
@@ -60,11 +62,13 @@ public class ClinicalStaffServiceImpl implements ClinicalStaffService {
         return clinicalStaffRepository.save(dentist);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
     @Override
     public List<ClinicalStaff> getAllDentists() {
         return clinicalStaffRepository.findAll();
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
     @Override
     public ClinicalStaff getDentistById(int id) {
         return clinicalStaffRepository.findById(id)

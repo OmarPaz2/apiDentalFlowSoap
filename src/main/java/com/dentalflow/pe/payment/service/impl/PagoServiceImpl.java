@@ -3,6 +3,7 @@ package com.dentalflow.pe.payment.service.impl;
 
 import java.math.BigDecimal;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import com.dentalflow.pe.appointment.entity.Appointment;
@@ -43,6 +44,7 @@ public class PagoServiceImpl implements PagoService {
 		this.citaRepository = citaRepository;
 	}
 
+	@PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
 	@Override
 	public PagoResponseDto registerPagoTratamiento(PagoRequestDto pago,int idTratamiento) {
 		Treatment tratamiento = tratamientoRepository.findById(idTratamiento).orElseThrow(()->new RuntimeException("tratamiento no encontrado"));
@@ -92,6 +94,7 @@ public class PagoServiceImpl implements PagoService {
 		return pagoRegisterEntity;
 	}
 
+	@PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
 	@Override
 	public PagoResponseDto registerPagoCita(PagoRequestDto pago,int idCita) {
 		
@@ -108,6 +111,7 @@ public class PagoServiceImpl implements PagoService {
 		return pagoRp;
 	}
 
+	@PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
 	@Override
 	public PagoResponseDto findPagoById(int idPago) {
 		Pago pagoEntity = pagoRepository.findById(idPago).orElseThrow(()-> new RuntimeException("Registro de pago no encontrado"));

@@ -2,6 +2,7 @@ package com.dentalflow.pe;
 
 import com.dentalflow.pe.appointment.serviceImpl.AppointmentServiceImpl;
 import com.dentalflow.pe.appointment.serviceImpl.AppointmentTypeServiceImpl;
+import com.dentalflow.pe.auth.serviceImpl.AuthServiceImpl;
 import com.dentalflow.pe.clinicalStaff.serviceImpl.ClinicalStaffServiceImpl;
 import com.dentalflow.pe.patient.serviceImpl.PatientServiceImpl;
 import com.dentalflow.pe.payment.service.impl.PagoServiceImpl;
@@ -17,8 +18,7 @@ import com.dentalflow.pe.dashboard.serviceImpl.DashboardServiceImpl;
 import com.dentalflow.pe.material.serviceImpl.MaterialServiceImpl;
 
 import jakarta.xml.ws.Endpoint;
-
-
+import org.springframework.aop.framework.AopProxyUtils;
 
 @SpringBootApplication
 public class ApiDentalFlowSoapApplication {
@@ -26,8 +26,8 @@ public class ApiDentalFlowSoapApplication {
 	public static void main(String[] args) {
 	ConfigurableApplicationContext context =SpringApplication.run(ApiDentalFlowSoapApplication.class, args);
 		
-		MaterialServiceImpl service= context.getBean(MaterialServiceImpl.class);
-		
+		MaterialServiceImpl service = context.getBean(MaterialServiceImpl.class);
+
 		 DashboardServiceImpl dashboardService =context.getBean(DashboardServiceImpl.class);
 
 		SpecialtyServiceImpl specialtyService = context.getBean(SpecialtyServiceImpl.class);
@@ -39,27 +39,61 @@ public class ApiDentalFlowSoapApplication {
 		AppointmentTypeServiceImpl appointmentTypeService = context.getBean(AppointmentTypeServiceImpl.class);
 
 		PatientServiceImpl patientService =	context.getBean(PatientServiceImpl.class);
-		
+
+		AuthServiceImpl authService = context.getBean(AuthServiceImpl.class);
+
 		PagoServiceImpl pagoService = context.getBean(PagoServiceImpl.class);
+
 		SesionTratamientoServiceImpl sesionTratamientoService = context.getBean(SesionTratamientoServiceImpl.class);
+
 		TratamientoServiceImpl tratamientoService = context.getBean(TratamientoServiceImpl.class);
 
-		Endpoint.publish("http://localhost:1520/ws/Appointment", appointmentService);
+		//
 
-		Endpoint.publish("http://localhost:1520/ws/Dentist", dentistService);
+		Object realAppointmentService = AopProxyUtils.getSingletonTarget(appointmentService);
+		Object realDentistService = AopProxyUtils.getSingletonTarget(dentistService);
+		Object realPatientService = AopProxyUtils.getSingletonTarget(patientService);
+		Object realAuthService = AopProxyUtils.getSingletonTarget(authService);
+		Object realAppointmentTypeService = AopProxyUtils.getSingletonTarget(appointmentTypeService);
+		Object realSpecialtyService = AopProxyUtils.getSingletonTarget(specialtyService);
+		Object realDashboardService = AopProxyUtils.getSingletonTarget(dashboardService);
+		Object realPagoService = AopProxyUtils.getSingletonTarget(pagoService);
+		Object realSesionTratamientoService = AopProxyUtils.getSingletonTarget(sesionTratamientoService);
+		Object realTratamientoService = AopProxyUtils.getSingletonTarget(tratamientoService);
 
-		Endpoint.publish("http://localhost:1520/ws/Patient", patientService);
+		//
 
-		Endpoint.publish("http://localhost:1520/ws/AppointmentType", appointmentTypeService);
+		Endpoint.publish("http://localhost:1520/ws/Appointment",
+				realAppointmentService != null ? realAppointmentService : appointmentService);
 
-		Endpoint.publish("http://localhost:1520/ws/Specialty", specialtyService);
+		Endpoint.publish("http://localhost:1520/ws/Dentist",
+				realDentistService != null ? realDentistService : dentistService);
+
+		Endpoint.publish("http://localhost:1520/ws/Patient",
+				realPatientService != null ? realPatientService : patientService);
+
+		Endpoint.publish("http://localhost:1520/ws/Auth",
+				realAuthService != null ? realAuthService : authService);
+
+		Endpoint.publish("http://localhost:1520/ws/AppointmentType",
+				realAppointmentTypeService != null ? realAppointmentTypeService : appointmentTypeService);
+
+		Endpoint.publish("http://localhost:1520/ws/Specialty",
+				realSpecialtyService != null ? realSpecialtyService : specialtyService);
 
 		Endpoint.publish("http://localhost:1520/ws/Material", service);
-		
-		 Endpoint.publish("http://localhost:1520/ws/Dashboard",dashboardService);
-		 Endpoint.publish("http://localhost:1520/ws/Pago",pagoService);
-		 Endpoint.publish("http://localhost:1520/ws/sesionTratamiento",sesionTratamientoService);
-		 Endpoint.publish("http://localhost:1520/ws/tratamiento",tratamientoService);
+
+		 Endpoint.publish("http://localhost:1520/ws/Dashboard",
+				 realDashboardService != null ? realDashboardService : dashboardService);
+
+		 Endpoint.publish("http://localhost:1520/ws/Pago",
+				 realPagoService != null ? realPagoService : pagoService);
+
+		 Endpoint.publish("http://localhost:1520/ws/sesionTratamiento",
+				 realSesionTratamientoService != null ? realSesionTratamientoService : sesionTratamientoService);
+
+		 Endpoint.publish("http://localhost:1520/ws/tratamiento",
+				 realTratamientoService != null  ? realTratamientoService : tratamientoService);
 	}
 
 }

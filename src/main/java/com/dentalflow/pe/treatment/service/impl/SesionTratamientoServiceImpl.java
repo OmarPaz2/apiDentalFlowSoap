@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import com.dentalflow.pe.treatment.dto.SesionTratamientoRegisterRequestDto;
@@ -42,6 +43,7 @@ public class SesionTratamientoServiceImpl implements SesionTratamientoService {
 		this.tratamientoService = tratamientoService;
 	}
 
+	@PreAuthorize("hasRole('ODONTOLOGO')")
 	@Override
 	public String registrarSesion(SesionTratamientoRegisterRequestDto sesion) {
 		
@@ -100,6 +102,7 @@ public class SesionTratamientoServiceImpl implements SesionTratamientoService {
 		
 	}
 
+	@PreAuthorize("hasRole('ODONTOLOGO')")
 	@Override
 	public String actualizarSesion(SesionTratamientoUpdateRequestDto sesion,int idSesion) {
 		
@@ -128,6 +131,7 @@ public class SesionTratamientoServiceImpl implements SesionTratamientoService {
 		return "datos de la seison registrada correctamente";
 	}
 
+	@PreAuthorize("hasRole('ODONTOLOGO')")
 	@Override
 	public SesionTratamientoResponseDto getSesion(int sesionId) {
 		TreatmentSession sesionEntity =  sesion_tratamientoRepository.findById(sesionId).orElseThrow(()->new RuntimeException("sesion no enocntrada"));
@@ -135,6 +139,7 @@ public class SesionTratamientoServiceImpl implements SesionTratamientoService {
 		return sesionMapper.toResponse(sesionEntity);
 	}
 
+	@PreAuthorize("hasRole('ODONTOLOGO') or hasRole('RECEPCIONISTA')")
 	@Override
 	public String cancelarSesion(int idSesion) {
 		TreatmentSession sesionEntity =  sesion_tratamientoRepository.findById(idSesion).orElseThrow(()->new RuntimeException("sesion no enocntrada"));
