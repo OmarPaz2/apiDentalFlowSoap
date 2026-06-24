@@ -6,7 +6,6 @@ import com.dentalflow.pe.auth.repository.IRolRepository;
 import com.dentalflow.pe.auth.repository.IUsuarioRepository;
 import com.dentalflow.pe.auth.service.AuthService;
 import com.dentalflow.pe.auth.service.JwtService;
-import jakarta.jws.WebService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,9 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@WebService(
-        endpointInterface = "com.dentalflow.pe.auth.service.AuthService"
-)
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {

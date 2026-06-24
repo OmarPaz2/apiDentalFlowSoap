@@ -7,7 +7,6 @@ import com.dentalflow.pe.patient.mapper.PatientMapper;
 import com.dentalflow.pe.patient.repository.IPatientRepository;
 import com.dentalflow.pe.patient.service.PatientService;
 
-import jakarta.jws.WebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@WebService(endpointInterface = "com.dentalflow.pe.patient.service.PatientService")
 public class PatientServiceImpl implements PatientService {
 
     @Autowired

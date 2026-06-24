@@ -3,6 +3,8 @@
 package com.dentalflow.pe.appointment.entity;
 
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,16 +21,26 @@ public class AppointmentType {
     @Column(name = "duration_minutes", nullable = false)
     private Integer durationMinutes;
 
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal price;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    public AppointmentType(){}
+    public AppointmentType() {}
 
-    public AppointmentType(Long id, LocalDateTime createdAt, String name, Integer durationMinutes) {
+    public AppointmentType(
+            Long id,
+            LocalDateTime createdAt,
+            String name,
+            Integer durationMinutes,
+            BigDecimal price
+    ) {
         this.id = id;
         this.createdAt = createdAt;
         this.name = name;
         this.durationMinutes = durationMinutes;
+        this.price = price;
     }
 
     public Long getId() {
@@ -61,5 +73,13 @@ public class AppointmentType {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

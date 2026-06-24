@@ -5,6 +5,7 @@ import com.dentalflow.pe.appointment.entity.AppointmentType;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @WebService
@@ -13,7 +14,8 @@ public interface AppointmentTypeService {
     @WebMethod
     AppointmentType createAppointmentType(
             String name,
-            Integer durationMinutes
+            Integer durationMinutes,
+            BigDecimal price
     );
 
     @WebMethod
