@@ -2,6 +2,7 @@ package com.dentalflow.pe.treatment.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,6 +36,8 @@ public class TreatmentSession {
     @Column(name = "costo_parcial", nullable = false, precision = 10, scale = 2)
     private BigDecimal costoParcial = BigDecimal.ZERO;
     
+    @Column(name="tiempoEjecucion", nullable=false)
+    private LocalTime tiempoEjecucion;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EstadoSesion estado = EstadoSesion.PROGRAMADA;

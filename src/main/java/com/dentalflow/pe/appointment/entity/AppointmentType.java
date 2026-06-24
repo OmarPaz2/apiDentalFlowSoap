@@ -1,3 +1,5 @@
+
+
 package com.dentalflow.pe.appointment.entity;
 
 import jakarta.persistence.*;
