@@ -12,11 +12,6 @@ public interface IPatientRepository extends JpaRepository<Patient, Integer> {
     
     boolean existsByDni(String dni);
     
-    @Query("""
-            SELECT p FROM Patient p WHERE
-            (:dni IS NULL OR p.dni = :dni OR p.dni LIKE CONCAT(:dni, '%')) AND
-            (:firstName IS NULL OR LOWER(p.firstName) LIKE LOWER(CONCAT('%', :firstName, '%'))) AND
-            (:lastName IS NULL OR LOWER(p.lastName) LIKE LOWER(CONCAT('%', :lastName, '%')))
-            """)
+    @Query("SELECT p FROM Patient p WHERE (:dni IS NULL OR p.dni = :dni OR p.dni LIKE CONCAT(:dni, '%')) AND (:firstName IS NULL OR LOWER(p.firstName) LIKE LOWER(CONCAT('%', :firstName, '%'))) AND(:lastName IS NULL OR LOWER(p.lastName) LIKE LOWER(CONCAT('%', :lastName, '%')))")
     List<Patient> search(String dni,String firstName,String lastName);
 }

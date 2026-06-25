@@ -3,6 +3,7 @@ package com.dentalflow.pe.treatment.dto;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+
 import com.dentalflow.pe.utils.LocalDateTimeAdapter;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -16,4 +17,5 @@ public class SesionTratamientoRegisterRequestDto {
 	 @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
 	 private LocalDateTime fechaProgramada;
 	 private BigDecimal costoParcial;
+	 private int tiempoDuracion;
 }

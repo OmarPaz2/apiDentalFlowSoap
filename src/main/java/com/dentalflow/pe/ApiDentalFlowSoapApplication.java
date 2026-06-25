@@ -67,7 +67,7 @@ public class ApiDentalFlowSoapApplication {
 				realAppointmentService != null ? realAppointmentService : appointmentService);
 
 		Endpoint.publish("http://localhost:1520/ws/Dentist",
-				realDentistService != null ? realDentistService : dentistService);
+				realDentistService != null ? realDentistService : dentistService); //falta
 
 		Endpoint.publish("http://localhost:1520/ws/Patient",
 				realPatientService != null ? realPatientService : patientService);
@@ -76,10 +76,10 @@ public class ApiDentalFlowSoapApplication {
 				realAuthService != null ? realAuthService : authService);
 
 		Endpoint.publish("http://localhost:1520/ws/AppointmentType",
-				realAppointmentTypeService != null ? realAppointmentTypeService : appointmentTypeService);
+				realAppointmentTypeService != null ? realAppointmentTypeService : appointmentTypeService); //falta
 
 		Endpoint.publish("http://localhost:1520/ws/Specialty",
-				realSpecialtyService != null ? realSpecialtyService : specialtyService);
+				realSpecialtyService != null ? realSpecialtyService : specialtyService); //falta
 
 		Endpoint.publish("http://localhost:1520/ws/Material", service);
 
@@ -90,7 +90,7 @@ public class ApiDentalFlowSoapApplication {
 				 realPagoService != null ? realPagoService : pagoService);
 
 		 Endpoint.publish("http://localhost:1520/ws/sesionTratamiento",
-				 realSesionTratamientoService != null ? realSesionTratamientoService : sesionTratamientoService);
+				 realSesionTratamientoService != null ? realSesionTratamientoService : sesionTratamientoService); //falta
 
 		 Endpoint.publish("http://localhost:1520/ws/tratamiento",
 				 realTratamientoService != null  ? realTratamientoService : tratamientoService);

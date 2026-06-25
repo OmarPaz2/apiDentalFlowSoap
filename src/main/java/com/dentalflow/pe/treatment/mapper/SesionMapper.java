@@ -18,6 +18,8 @@ public interface SesionMapper {
     @Mapping(target = "estado", ignore = true)
     @Mapping(target = "fechaRealizada", ignore = true)
     @Mapping(target = "observaciones", ignore = true)
+    @Mapping(target ="tiempoEjecucion",ignore=true)
+    @Mapping(target="asistenciaPaciente",ignore = true)
     TreatmentSession toEntity(SesionTratamientoRegisterRequestDto dto);
     
 
@@ -26,6 +28,7 @@ public interface SesionMapper {
     @Mapping(target = "nombrePaciente",source = "tratamiento.paciente.firstName")
     @Mapping(target = "apellidoPaciente",source = "tratamiento.paciente.lastName")
     @Mapping(target = "dni",source = "tratamiento.paciente.dni")
+    @Mapping(target="asistenciaPaciente",source = "asistenciaPaciente")
     SesionTratamientoResponseDto toResponse(TreatmentSession sesion);
 
     

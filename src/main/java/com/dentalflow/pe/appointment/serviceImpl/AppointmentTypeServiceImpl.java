@@ -39,4 +39,25 @@ public class AppointmentTypeServiceImpl implements AppointmentTypeService {
     public List<AppointmentType> getAllAppointmentTypes() {
         return repository.findAll();
     }
+
+	@Override
+	public String updateType(Long id,AppointmentType type) {
+		AppointmentType typeEntity = repository.findById(id).orElseThrow(()->new RuntimeException("Error al encotrar el tipo"));
+		
+		typeEntity.setName(type.getName());
+		typeEntity.setDurationMinutes(type.getDurationMinutes());
+		
+		try {
+			repository.save(typeEntity);
+			return "Tipo actualizado correctamente";
+		}catch (Exception e) {
+			throw new RuntimeException("Error al guardar la actualizacion");
+		}
+	}
+
+	@Override
+	public AppointmentType findType(Long id) {
+			return repository.findById(id).orElseThrow(()->new RuntimeException("Tipo de cita no encontrado"));
+		
+	}
 }

@@ -18,4 +18,8 @@ public interface AppointmentTypeService {
 
     @WebMethod
     List<AppointmentType> getAllAppointmentTypes();
+    
+    String updateType(Long id,AppointmentType type);
+    
+    AppointmentType findType(Long id);
 }

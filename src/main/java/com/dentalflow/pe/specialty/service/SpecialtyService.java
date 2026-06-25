@@ -18,4 +18,6 @@ public interface SpecialtyService {
 
     @WebMethod
     List<Specialty> getAllSpecialties();
+    
+    String deleteSpecialty(int id);
 }

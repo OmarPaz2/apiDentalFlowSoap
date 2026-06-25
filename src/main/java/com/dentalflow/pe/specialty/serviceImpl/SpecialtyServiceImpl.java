@@ -58,4 +58,17 @@ public class SpecialtyServiceImpl implements SpecialtyService {
     public List<Specialty> getAllSpecialties() {
         return repository.findAll();
     }
+    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
+	@Override
+	public String deleteSpecialty(int id) {
+		
+    	Specialty sp = repository.findById(id).orElseThrow(()->new RuntimeException("Especialidad no encontrada"));
+    	
+    	try {
+    		repository.delete(sp);
+    		return "especialidad elimanada con exito";
+    	}catch (Exception e) {
+			throw new RuntimeException("Error al eliminar la especialidad");
+		}
+	}
 }

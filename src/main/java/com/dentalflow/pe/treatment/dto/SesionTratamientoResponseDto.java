@@ -24,4 +24,5 @@ public class SesionTratamientoResponseDto {
 	 private BigDecimal costoParcial;
 	 private String observaciones;
 	 private String estado;
+	 private boolean asistenciaPaciente;
 }

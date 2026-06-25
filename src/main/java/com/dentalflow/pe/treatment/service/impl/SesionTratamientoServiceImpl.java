@@ -2,6 +2,8 @@ package com.dentalflow.pe.treatment.service.impl;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +22,11 @@ import com.dentalflow.pe.treatment.repository.ISesion_tratamientoRepository;
 import com.dentalflow.pe.treatment.repository.ITratamientoRepository;
 import com.dentalflow.pe.treatment.service.SesionTratamientoService;
 import com.dentalflow.pe.treatment.service.TratamientoService;
+import com.dentalflow.pe.utils.LocalDateAdapter;
+import com.dentalflow.pe.utils.LocalTimeAdapter;
 
 import jakarta.jws.WebService;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @WebService
 @Component
@@ -83,6 +88,8 @@ public class SesionTratamientoServiceImpl implements SesionTratamientoService {
 			sesionTratamiento.setTratamiento(tratamiento);
 			sesionTratamiento.setEstado(EstadoSesion.PROGRAMADA);
 			
+			LocalTime horaDeFinalizacion = sesionTratamiento.getTiempoEjecucion().plusMinutes(sesion.getTiempoDuracion() + 15);
+			sesionTratamiento.setTiempoEjecucion(horaDeFinalizacion);
 			
 			int sesionesRestantes=tratamiento.getCant_sesiones() - cantSesionesRealizadas;
 			
@@ -158,16 +165,107 @@ public class SesionTratamientoServiceImpl implements SesionTratamientoService {
 	}
 
 	@Override
-	public List<SesionTratamientoResponseDto> sesionesParahoy() {
+	public List<SesionTratamientoResponseDto> sesionesParahoy(int idOdontologo,Boolean asistencia) {
 		LocalDate fechaHoy = LocalDate.now();
 		
-		List<TreatmentSession> sesiones =  sesion_tratamientoRepository.findAllByFechaProgramada(fechaHoy, EstadoSesion.PROGRAMADA);
+		List<TreatmentSession> sesiones =  sesion_tratamientoRepository.findAllByFechaProgramada(fechaHoy, EstadoSesion.PROGRAMADA,idOdontologo);
+		List<TreatmentSession> sesionesFiltradas = new ArrayList<TreatmentSession>();
+		if(asistencia) {
+			
+			
+			for(TreatmentSession ts : sesiones) {
+				if(ts.isAsistenciaPaciente()) {
+					sesionesFiltradas.add(ts);
+				}
+				
+			}
+			
+			return convertirSesiones(sesionesFiltradas);
+		}
 		
+		if(!asistencia) {
+			if(asistencia) {					
+				for(TreatmentSession ts : sesiones) {
+					if(!ts.isAsistenciaPaciente()) {
+						sesionesFiltradas.add(ts);
+					}
+					
+				}
+				
+				return convertirSesiones(sesionesFiltradas);
+			}
+		}
 		
 		return convertirSesiones(sesiones);
+	}
+	
+
+	@Override
+	@XmlJavaTypeAdapter(LocalTimeAdapter.class) 
+	public LocalTime fechaRecomendada(int idOdontologo,@XmlJavaTypeAdapter(LocalTimeAdapter.class) LocalTime horaSolicitada,@XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate fecha) {
+		
+		List<TreatmentSession> sesionesProgramadasParaOdontologo_FechaSolicitada = sesion_tratamientoRepository.findAllByFechaProgramada(fecha,EstadoSesion.PROGRAMADA,idOdontologo);
+		
+		  if (sesionesProgramadasParaOdontologo_FechaSolicitada.isEmpty()) {
+		        return horaSolicitada;
+		    }
+		  
+		    
+		    LocalTime horaPropuesta = horaSolicitada;
+		    
+		    for (int i = 0; i < sesionesProgramadasParaOdontologo_FechaSolicitada.size(); i++) {
+		    	
+		        TreatmentSession sesionActual = sesionesProgramadasParaOdontologo_FechaSolicitada.get(i);
+		        LocalTime inicioSesionActual = sesionActual.getFechaProgramada().toLocalTime();
+		        LocalTime finSesionConMargen = sesionActual.getTiempoEjecucion().plusMinutes(15);
+		        
+		        //igual o despues d einicio de sesion
+		        if (!horaPropuesta.isBefore(inicioSesionActual) && horaPropuesta.isBefore(finSesionConMargen)) {		          
+		            horaPropuesta = finSesionConMargen;
+		        }
+		        
+		        
+		        if (i < sesionesProgramadasParaOdontologo_FechaSolicitada.size() - 1) {
+		            TreatmentSession siguienteSesion = sesionesProgramadasParaOdontologo_FechaSolicitada.get(i + 1);
+		            LocalTime inicioSiguiente = siguienteSesion.getFechaProgramada().toLocalTime().minusMinutes(30);
+		            
+		             
+		            if (horaPropuesta.isBefore(inicioSiguiente) || horaPropuesta.equals(inicioSiguiente)) {
+		            	
+		                return horaPropuesta;
+		            }
+		            
+		        }
+		    }
+		    
+		    return horaPropuesta;
+	
+		
+		
+		
 		
 	}
 	
+
+	@Override
+	public String marcarAsistenciaPaciente(int idSesion) {
+		TreatmentSession sesion = sesion_tratamientoRepository.findById(idSesion).orElseThrow(()->new RuntimeException("Error al enocntrar la seison"));
+		
+		if(sesion.isAsistenciaPaciente()) {
+			sesion.setAsistenciaPaciente(false);
+		}
+		
+		sesion.setAsistenciaPaciente(true);
+		try {
+			sesion_tratamientoRepository.save(sesion);
+		    return "Asistencia del paciente actualizada";
+		}catch (Exception e) {
+			throw new RuntimeException("Error al actualizar la asistencia");
+		}
+	}
+	
+	
+	//metodos auxilares
 	private List<SesionTratamientoResponseDto> convertirSesiones(List<TreatmentSession> sesiones) {
 		
 		List<SesionTratamientoResponseDto> sesionesRp = new ArrayList<>();
@@ -178,5 +276,6 @@ public class SesionTratamientoServiceImpl implements SesionTratamientoService {
 		
 		return sesionesRp;
 	}
+
 
 }

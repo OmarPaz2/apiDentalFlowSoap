@@ -36,8 +36,11 @@ public class TreatmentSession {
     @Column(name = "costo_parcial", nullable = false, precision = 10, scale = 2)
     private BigDecimal costoParcial = BigDecimal.ZERO;
     
+    @Column(name="asistioPaciente", nullable=false, columnDefinition="boolean default false")
+    private boolean asistenciaPaciente =false;
+    
     @Column(name="tiempoEjecucion", nullable=false)
-    private LocalTime tiempoEjecucion;
+    private LocalTime tiempoEjecucion; //atributo para determinar la hora de finalizacion
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EstadoSesion estado = EstadoSesion.PROGRAMADA;
