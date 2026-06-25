@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -56,6 +55,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         LocalDate appointmentDate = LocalDate.parse(date);
         LocalTime start = LocalTime.parse(startTime);
+
+        if (appointmentDate.isBefore(LocalDate.now())) {
+            throw new RuntimeException("Cannot create appointments in the past");
+        }
+
+        if (appointmentDate.equals(LocalDate.now()) && start.isBefore(LocalTime.now())) {
+            throw new RuntimeException("Cannot create appointments in the past");
+        }
+
         LocalTime end = start.plusMinutes(type.getDurationMinutes());
 
         validateOverlap(dentistId, appointmentDate, start, end);
@@ -71,7 +79,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setStatus(AppointmentStatus.PENDING);
         appointment.setCreatedAt(LocalDateTime.now());
         appointment.setUpdatedAt(LocalDateTime.now());
-        appointment.setAmount(new BigDecimal("50.00"));
+        appointment.setAmount(type.getPrice());
 
         return appointmentRepository.save(appointment);
     }
@@ -92,6 +100,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         LocalDate date = LocalDate.parse(newDate);
         LocalTime start = LocalTime.parse(newStartTime);
+
+        if (date.isBefore(LocalDate.now())) {
+            throw new RuntimeException("Cannot reschedule to a past date");
+        }
+
+        if (date.equals(LocalDate.now()) && start.isBefore(LocalTime.now())) {
+            throw new RuntimeException("Cannot reschedule to a past date");
+        }
+
         LocalTime end = start.plusMinutes(
                 appointment.getAppointmentType().getDurationMinutes()
         );
@@ -125,6 +142,10 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Appointment cancelAppointment(int appointmentId) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
+
+        if (appointment.getStatus() == AppointmentStatus.CANCELLED) {
+            throw new RuntimeException("Appointment already cancelled");
+        }
 
         appointment.setStatus(AppointmentStatus.CANCELLED);
         appointment.setUpdatedAt(LocalDateTime.now());

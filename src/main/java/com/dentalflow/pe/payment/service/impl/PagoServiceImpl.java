@@ -4,7 +4,6 @@ package com.dentalflow.pe.payment.service.impl;
 import java.math.BigDecimal;
 
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Component;
 
 import com.dentalflow.pe.appointment.entity.Appointment;
 import com.dentalflow.pe.appointment.repository.IAppointmentRepository;
@@ -20,10 +19,9 @@ import com.dentalflow.pe.treatment.entity.TreatmentSession.EstadoSesion;
 import com.dentalflow.pe.treatment.repository.ISesion_tratamientoRepository;
 import com.dentalflow.pe.treatment.repository.ITratamientoRepository;
 
-import jakarta.jws.WebService;
+import org.springframework.stereotype.Service;
 
-@WebService
-@Component
+@Service
 public class PagoServiceImpl implements PagoService {
 
 	private final IPagoRepository pagoRepository;

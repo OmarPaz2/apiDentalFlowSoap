@@ -10,8 +10,8 @@ import com.dentalflow.pe.clinicalStaff.repository.IClinicalStaffRepository;
 import com.dentalflow.pe.clinicalStaff.service.ClinicalStaffService;
 import com.dentalflow.pe.specialty.entity.Specialty;
 import com.dentalflow.pe.specialty.repository.ISpecialtyRepository;
+import lombok.RequiredArgsConstructor;
 
-import jakarta.jws.WebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -21,17 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@WebService(endpointInterface = "com.dentalflow.pe.clinicalStaff.service.ClinicalStaffService")
+@RequiredArgsConstructor
 public class ClinicalStaffServiceImpl implements ClinicalStaffService {
 
-    @Autowired
-    private IClinicalStaffRepository clinicalStaffRepository;
-
-    @Autowired
-    private ISpecialtyRepository specialtyRepository;
-
-    @Autowired
-    private IUsuarioRepository usuarioRepository;
+    private final IClinicalStaffRepository clinicalStaffRepository;
+    private final ISpecialtyRepository specialtyRepository;
+    private final IUsuarioRepository usuarioRepository;
 
     @Autowired
     private ClinicalStaffMapper clinicalMapper;
@@ -55,7 +50,6 @@ public class ClinicalStaffServiceImpl implements ClinicalStaffService {
 
         Usuario user = usuarioRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
 
         ClinicalStaff dentist = new ClinicalStaff();
         dentist.setUsuario(user);

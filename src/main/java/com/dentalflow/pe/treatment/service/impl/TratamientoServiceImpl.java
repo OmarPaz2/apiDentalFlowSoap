@@ -3,7 +3,7 @@ package com.dentalflow.pe.treatment.service.impl;
 import java.math.BigDecimal;
 
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.dentalflow.pe.clinicalStaff.entity.ClinicalStaff;
 import com.dentalflow.pe.clinicalStaff.repository.IClinicalStaffRepository;
@@ -20,9 +20,8 @@ import com.dentalflow.pe.treatment.repository.ISesion_tratamientoRepository;
 import com.dentalflow.pe.treatment.repository.ITratamientoRepository;
 import com.dentalflow.pe.treatment.service.TratamientoService;
 
-import jakarta.jws.WebService;
-@Component
-@WebService
+
+@Service
 public class TratamientoServiceImpl implements TratamientoService{
 
 	private final ITratamientoRepository tratamientoRepository;
@@ -108,7 +107,7 @@ public class TratamientoServiceImpl implements TratamientoService{
 	}
 
 
-
+	@PreAuthorize("hasRole('RECEPCIONISTA')")
 	@Override
 	public String aumentarCostoTratamiento(int idTratamiento, BigDecimal monto) {
 		Treatment tratamiento = tratamientoRepository.findById(idTratamiento).orElseThrow(()->new RuntimeException("tratamiento no encontrado"));

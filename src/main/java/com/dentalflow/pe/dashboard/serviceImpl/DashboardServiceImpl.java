@@ -17,11 +17,8 @@ import com.dentalflow.pe.payment.repository.IPagoRepository;
 import com.dentalflow.pe.treatment.repository.ITratamientoRepository;
 import com.dentalflow.pe.dashboard.service.DashboardService;
 
-import jakarta.jws.WebService;
-
 @Service
-@WebService
-@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasRole('ADMIN') or hasRole('ODONTOLOGO')")
 public class DashboardServiceImpl implements DashboardService {
 
 	

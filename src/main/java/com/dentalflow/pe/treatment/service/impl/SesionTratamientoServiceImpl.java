@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Component;
 
 import com.dentalflow.pe.treatment.dto.SesionTratamientoRegisterRequestDto;
 import com.dentalflow.pe.treatment.dto.SesionTratamientoResponseDto;
@@ -25,11 +24,12 @@ import com.dentalflow.pe.treatment.service.TratamientoService;
 import com.dentalflow.pe.utils.LocalDateAdapter;
 import com.dentalflow.pe.utils.LocalTimeAdapter;
 
-import jakarta.jws.WebService;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-@WebService
-@Component
+import org.springframework.stereotype.Service;
+
+
+@Service
 public class SesionTratamientoServiceImpl implements SesionTratamientoService {
 
 	private final ISesion_tratamientoRepository sesion_tratamientoRepository;
