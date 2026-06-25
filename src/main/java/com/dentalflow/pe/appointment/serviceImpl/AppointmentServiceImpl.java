@@ -212,7 +212,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
+    //@PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
     @Override
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();
