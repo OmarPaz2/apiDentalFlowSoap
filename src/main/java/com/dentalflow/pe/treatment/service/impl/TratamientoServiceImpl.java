@@ -71,7 +71,7 @@ public class TratamientoServiceImpl implements TratamientoService{
 	}
 
 
-	@PreAuthorize("hasRole('ODONTOLOGO')")
+	@PreAuthorize("hasRole('ODONTOLOGO') or hasRole('RECEPCIONISTA')")
 	@Override
 	public TratamientoResponseDto getTratamiento(String dniPaciente) {
 		if(!pacienteRepository.existsByDni(dniPaciente)) {
@@ -107,7 +107,7 @@ public class TratamientoServiceImpl implements TratamientoService{
 	}
 
 
-	@PreAuthorize("hasRole('RECEPCIONISTA')")
+	@PreAuthorize("hasRole('ODONTOLOGO')")
 	@Override
 	public String aumentarCostoTratamiento(int idTratamiento, BigDecimal monto) {
 		Treatment tratamiento = tratamientoRepository.findById(idTratamiento).orElseThrow(()->new RuntimeException("tratamiento no encontrado"));
@@ -115,7 +115,7 @@ public class TratamientoServiceImpl implements TratamientoService{
 		BigDecimal totalFinal=tratamiento.getCostoEstimado().add(monto);
 		
 		tratamiento.setCostoEstimado(totalFinal);
-		
+
 			tratamientoRepository.save(tratamiento);
 			return "Costo del tratamiento aumentado con exito";
 		

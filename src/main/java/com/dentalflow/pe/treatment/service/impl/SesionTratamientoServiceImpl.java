@@ -138,7 +138,7 @@ public class SesionTratamientoServiceImpl implements SesionTratamientoService {
 		return "datos de la seison registrada correctamente";
 	}
 
-	@PreAuthorize("hasRole('ODONTOLOGO')")
+	@PreAuthorize("hasRole('ODONTOLOGO') or hasRole('RECEPCIONISTA')")
 	@Override
 	public SesionTratamientoResponseDto getSesion(int sesionId) {
 		TreatmentSession sesionEntity =  sesion_tratamientoRepository.findById(sesionId).orElseThrow(()->new RuntimeException("sesion no enocntrada"));
@@ -157,6 +157,7 @@ public class SesionTratamientoServiceImpl implements SesionTratamientoService {
 		return "sesion cancelada correctamente";
 	}
 
+	@PreAuthorize("hasRole('ODONTOLOGO') or hasRole('RECEPCIONISTA')")
 	@Override
 	public List<SesionTratamientoResponseDto> getAllSesionesByIdTratamiento(int idTratamiento) {
 		
@@ -164,6 +165,7 @@ public class SesionTratamientoServiceImpl implements SesionTratamientoService {
 		return convertirSesiones(sesiones);
 	}
 
+	@PreAuthorize("hasRole('ODONTOLOGO')")
 	@Override
 	public List<SesionTratamientoResponseDto> sesionesParahoy(int idOdontologo,Boolean asistencia) {
 		LocalDate fechaHoy = LocalDate.now();
@@ -198,8 +200,9 @@ public class SesionTratamientoServiceImpl implements SesionTratamientoService {
 		
 		return convertirSesiones(sesiones);
 	}
-	
 
+
+	@PreAuthorize("hasRole('RECEPCIONISTA')")
 	@Override
 	@XmlJavaTypeAdapter(LocalTimeAdapter.class) 
 	public LocalTime fechaRecomendada(int idOdontologo,@XmlJavaTypeAdapter(LocalTimeAdapter.class) LocalTime horaSolicitada,@XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate fecha) {
@@ -245,8 +248,9 @@ public class SesionTratamientoServiceImpl implements SesionTratamientoService {
 		
 		
 	}
-	
 
+
+	@PreAuthorize("hasRole('RECEPCIONISTA')")
 	@Override
 	public String marcarAsistenciaPaciente(int idSesion) {
 		TreatmentSession sesion = sesion_tratamientoRepository.findById(idSesion).orElseThrow(()->new RuntimeException("Error al enocntrar la seison"));
