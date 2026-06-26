@@ -24,7 +24,7 @@ public class MaterialServiceImpl implements MaterialService {
 		return repository.findAll();
 	}
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA'))")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
 	@Override
 	public Material materialCreate(Material material) {
 		if(material.getStock() < 0){
@@ -42,13 +42,13 @@ public class MaterialServiceImpl implements MaterialService {
         return repository.save(material);
 	}
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA'))")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
 	@Override
 	public Material materialGetById(Integer id) {
 		return repository.findById(id).orElse(null);
 	}
 
-    @PreAuthorize("hasRole('ADMIN' or hasRole('RECEPCIONISTA'))")
+    @PreAuthorize("hasRole('ADMIN' or hasRole('RECEPCIONISTA')")
 	@Override
 	public String materialUpdate(Integer id, Material material) {
 		Material existente = repository.findById(id).orElse(null);
@@ -67,7 +67,7 @@ public class MaterialServiceImpl implements MaterialService {
         return "Material actualizado correctamente";
 	}
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA'))")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
 	@Override
 	public String materialDelete(Integer id) {
 		if(!repository.existsById(id)){
@@ -79,7 +79,7 @@ public class MaterialServiceImpl implements MaterialService {
         return "Material eliminado correctamente";
 	}
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA'))")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
 	@Override
 	public List<Material> stockCritico() {
 		return repository.findAll()

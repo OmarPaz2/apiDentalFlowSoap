@@ -30,7 +30,7 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String generateToken(Usuario usuario) {
         return Jwts.builder()
-                .subject(usuario.getUsername())
+                .subject(usuario.getId().toString())
                 .claim("role", usuario.getRol().getNombre())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expiration))
