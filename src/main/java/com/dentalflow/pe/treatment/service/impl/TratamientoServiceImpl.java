@@ -1,6 +1,8 @@
 package com.dentalflow.pe.treatment.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -58,6 +60,13 @@ public class TratamientoServiceImpl implements TratamientoService{
 		
 		if(!odontologo.getUsuario().getRol().getNombre().equalsIgnoreCase("ODONTOLOGO")) {
 			throw new RuntimeException("El personal seleccionado no es un odontologo");
+		}
+		List<EstadoTratamiento> listaEstado= new ArrayList<EstadoTratamiento>();
+		listaEstado.add(EstadoTratamiento.EN_PROGRESO);
+		listaEstado.add(EstadoTratamiento.PLANIFICADO);
+		Treatment tratamientoFilter = tratamientoRepository.findByPaciente_DniAndEstadoIn(paciente.getDni(), listaEstado);
+		if(tratamientoFilter ==null) {
+			throw new RuntimeException("El paciente ya tiene un tratamiento registrado a su nombre en procesos iniciales");
 		}
 		
 		Treatment tratamiento = tratamientoMapper.toEntity(tratamientoRq);

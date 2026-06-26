@@ -48,7 +48,7 @@ public class MaterialServiceImpl implements MaterialService {
 		return repository.findById(id).orElse(null);
 	}
 
-    @PreAuthorize("hasRole('ADMIN' or hasRole('RECEPCIONISTA')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('RECEPCIONISTA')")
 	@Override
 	public String materialUpdate(Integer id, Material material) {
 		Material existente = repository.findById(id).orElse(null);

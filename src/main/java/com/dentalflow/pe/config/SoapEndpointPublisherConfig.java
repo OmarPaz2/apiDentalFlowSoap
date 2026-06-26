@@ -1,8 +1,10 @@
 package com.dentalflow.pe.config;
 
 import com.dentalflow.pe.auth.soap.AuthEndpoint;
+import com.dentalflow.pe.clinicalStaff.soap.ClinicalStaffEndpoint;
 import com.dentalflow.pe.patient.soap.PatientEndpoint;
 import com.dentalflow.pe.appointment.soap.AppointmentEndpoint;
+import com.dentalflow.pe.appointment.soap.AppointmentTypeEndpoint;
 import com.dentalflow.pe.payment.soap.PagoEndpoint;
 import com.dentalflow.pe.treatment.soap.TratamientoEndpoint;
 import com.dentalflow.pe.treatment.soap.SesionTratamientoEndpoint;
@@ -36,7 +38,11 @@ public class SoapEndpointPublisherConfig {
                                     SoapSecurityHelper helper) {
         return publish(endpoint, helper, "/Patient");
     }
-
+    @Bean
+    public Endpoint clinicalStaffSoapEndpoint(ClinicalStaffEndpoint endpoint,
+                                      SoapSecurityHelper helper) {
+        return publish(endpoint, helper, "/clinicalStaff");
+    }
     @Bean
     public Endpoint appointmentSoapEndpoint(AppointmentEndpoint endpoint,
                                         SoapSecurityHelper helper) {
@@ -79,6 +85,12 @@ public class SoapEndpointPublisherConfig {
         return publish(endpoint, helper, "/Dashboard");
     }
 
+    @Bean
+    public Endpoint appointmentTypeSoapEndpoint(AppointmentTypeEndpoint endpoint,
+                                      SoapSecurityHelper helper) {
+        return publish(endpoint, helper, "/appointmentType");
+    }
+    
     /**
      * MÉTODO CENTRALIZADO DE PUBLICACIÓN SOAP
      */
